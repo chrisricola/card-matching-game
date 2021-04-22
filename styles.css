@@ -103,8 +103,13 @@ body {
   font-family: Creepy, serif;
 }
 
+.overlay-text-small {
+  font-size: 0.3em;
+}
+
 .overlay-text.visible {
   display: flex;
+  flex-direction: column;
   animation: overlay-grow 5ms forwards;
 }
 
