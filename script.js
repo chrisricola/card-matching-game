@@ -23,7 +23,7 @@
       }
       victory() {
           this.stopMusic();
-          this.victory.play();
+          this.victorySound.play();
       }
       gameOver() {
           this.stopMusic();
@@ -48,14 +48,36 @@
           this.busy = true;
          setTimeout(() => {
             this.audioController.startMusic();
-            this.shuffleCards();
+            this.shuffleCards(this.cardsArray);
             this.countDown = this.startCountDown();
             this.busy = false;
          }, 500);
-         this.hidecCards();
+         this.hideCards();
          this.timer.innerText = this.timeRemaining;
          this.ticker.innerText = this.totalClicks;
       }
+
+      startCountDown() {
+        return setInterval(() => {
+            this.timeRemaining--;
+            this.timer.innerText = this.timeRemaining;
+            if(this.timeRemaining === 0)
+              this.gameOver();
+        }, 1000);
+     }
+
+     gameOver() {
+        clearInterval(this.countDown);
+        this.audioController.gameOver();
+        document.getElementById('game-over-text').classList.add('visible');
+    }
+
+    victory() {
+        clearInterval(this.countDown);
+        this.audioController.victory();
+        document.getElementById('victory-text').classList.add('visible');
+    }
+
       hideCards() {
           this.cardsArray.forEach(card => {
             card.classList.remove('visible');
@@ -95,7 +117,7 @@
             card1.classList.add('matched');
             card2.classList.add('matched');
             this.audioController.match();
-            if(this.matchedCards.length === this.cardsArray)
+            if(this.matchedCards.length === this.cardsArray.length)
                 this.victory();
       }
 
@@ -108,26 +130,19 @@
             }, 1000);
       }
 
-      startCountDown() {
-          return setInterval(() => {
-              this.timeRemaining --;
-              this.timer.innerText = this.timeRemaining;
-              if(this.timeRemaining === 0)
-                this.gameOver();
-          }, 1000);
-      }
+      
 
-      gameOver() {
-          clearInterval(this.countDown);
-          this.audioController.gameOver();
-          document.getElementById('game-over-text').classList.add('visible');
-      }
+    //   gameOver() {
+    //       clearInterval(this.countDown);
+    //       this.audioController.gameOver();
+    //       document.getElementById('game-over-text').classList.add('visible');
+    //   }
 
-      victory() {
-          clearInterval(this.countDown);
-          this.audioController.gameOver();
-          document.getElementById('victory-text').classList.add('visible');
-      }
+    //   victory() {
+    //       clearInterval(this.countDown);
+    //       this.audioController.gameOver();
+    //       document.getElementById('victory-text').classList.add('visible');
+    //   }
 
       shuffleCards() {
           for(let i = this.cardsArray.length -1; i > 0; i--) {
