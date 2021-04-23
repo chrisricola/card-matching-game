@@ -81,6 +81,8 @@
             this.cardMatch(card, this.cardToCheck);
         else
             this.cardMisMatch(card, this.cardToCheck);
+
+        this.cardToCheck = null;
       }
 
       getCardType(card) {
@@ -97,8 +99,13 @@
                 this.victory();
       }
 
-      cardMisMatch(card) {
-
+      cardMisMatch(card1, card2) {
+            this.busy = true;
+            setTimeout(() => {
+                card1.classList.remove('visible');
+                card2.classList.remove('visible');
+                this.busy = false;
+            }, 1000);
       }
 
       startCountDown() {
@@ -130,8 +137,7 @@
           }
       }
       canFlipCard(card) {
-          return true;
-        //   return(!this.busy && !this.matchedCards.includes(card) && card !==this.cardToCheck)
+          return(!this.busy && !this.matchedCards.includes(card) && card !==this.cardToCheck)
       }
   }
 
